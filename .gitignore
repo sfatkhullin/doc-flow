@@ -1,0 +1,25 @@
+# Environment
+backend/.env
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+backend/venv/
+
+# ChromaDB
+backend/chroma_data/
+
+# Uploads
+backend/uploads/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+backend/nul

@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>wunderDocs</title>
+  <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="logo">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+          <span>wunderDocs</span>
+        </div>
+        <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+          <svg class="sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+          <svg class="moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+      </div>
+
+      <div class="upload-zone" id="uploadZone">
+        <input type="file" id="fileInput" accept=".pdf,.docx,.txt,.md,.csv" hidden />
+        <button class="upload-info-btn" id="uploadInfoBtn" aria-label="Поддерживаемые форматы">i</button>
+        <div class="upload-popover hidden" id="uploadPopover">
+          <div class="popover-arrow"></div>
+          <div class="popover-title">Поддерживаемые форматы</div>
+          <ul class="popover-list">
+            <li><span class="popover-ext">.pdf</span> Документы PDF</li>
+            <li><span class="popover-ext">.docx</span> Документы Word</li>
+            <li><span class="popover-ext">.txt</span> Текстовые файлы</li>
+            <li><span class="popover-ext">.md</span> Markdown</li>
+            <li><span class="popover-ext">.csv</span> Таблицы CSV</li>
+          </ul>
+        </div>
+        <div class="upload-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+        </div>
+        <span class="upload-text">Загрузить документ</span>
+      </div>
+
+      <div class="documents-section">
+        <div class="section-header">
+          <h3>Документы</h3>
+          <span class="doc-count" id="docCount">0</span>
+        </div>
+        <div class="documents-list" id="documentsList">
+          <div class="empty-state">
+            <p>Нет документов</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="history-section">
+        <div class="section-header">
+          <h3>История</h3>
+        </div>
+        <div class="history-list" id="historyList">
+          <div class="empty-state">
+            <p>Нет диалогов</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="sidebar-footer">
+        <button class="settings-btn" id="settingsBtn">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+          Настройки
+        </button>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="main-header">
+        <div class="header-info">
+          <h1>Анализ документов</h1>
+          <p class="header-subtitle">Задайте вопрос по содержанию</p>
+        </div>
+        <div class="header-actions">
+          <button class="new-chat-btn" id="newChatBtn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            Новый чат
+          </button>
+          <div class="connection-status" id="connectionStatus">
+            <span class="status-dot"></span>
+            <span class="status-text">API</span>
+          </div>
+        </div>
+      </header>
+
+      <div class="chat-container">
+        <div class="empty-main" id="emptyMain">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+          <h2>Нет загруженных документов</h2>
+          <p>Загрузите PDF или DOCX, чтобы начать работу</p>
+        </div>
+        <div class="messages" id="messages" style="display:none">
+          <div class="message welcome">
+            <div class="avatar ai">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+            </div>
+            <div class="message-content">
+              <p>Привет! Я wunderDocs AI — ваш корпоративный помощник по документам. Загрузите документ через боковую панель и задайте любой вопрос по содержанию.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="input-bar">
+          <div class="input-wrapper">
+            <textarea
+              id="questionInput"
+              rows="1"
+              placeholder="Задайте вопрос по документам..."
+            ></textarea>
+            <button class="send-btn" id="sendBtn" disabled aria-label="Отправить">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="toast" id="toast">
+        <span class="toast-icon" id="toastIcon">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+        </span>
+        <span class="toast-message" id="toastMessage"></span>
+      </div>
+
+      <div class="settings-overlay hidden" id="settingsOverlay">
+        <div class="settings-modal">
+          <div class="settings-header">
+            <h2>Настройки</h2>
+            <button class="settings-close" id="settingsClose">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
+          </div>
+
+          <div class="settings-section">
+            <h3>Цвет акцента</h3>
+            <div class="color-options" id="colorOptions">
+              <button class="color-btn" data-color="gray" style="--c:#666" title="Серый"></button>
+              <button class="color-btn" data-color="slate" style="--c:#6b7280" title="Сланцевый"></button>
+              <button class="color-btn" data-color="blue" style="--c:#3b82f6" title="Синий"></button>
+              <button class="color-btn" data-color="green" style="--c:#22c55e" title="Зелёный"></button>
+              <button class="color-btn" data-color="purple" style="--c:#8b5cf6" title="Фиолетовый"></button>
+              <button class="color-btn" data-color="warm" style="--c:#d97706" title="Тёплый"></button>
+            </div>
+          </div>
+
+          <div class="settings-section">
+            <h3>Размер шрифта</h3>
+            <div class="size-options" id="sizeOptions">
+              <button class="size-btn" data-size="small">Маленький</button>
+              <button class="size-btn active" data-size="medium">Средний</button>
+              <button class="size-btn" data-size="large">Большой</button>
+            </div>
+          </div>
+
+          <div class="settings-section">
+            <h3>Плотность интерфейса</h3>
+            <div class="size-options" id="densityOptions">
+              <button class="size-btn" data-density="compact">Компактный</button>
+              <button class="size-btn active" data-density="normal">Обычный</button>
+              <button class="size-btn" data-density="spacious">Просторный</button>
+            </div>
+          </div>
+
+          <button class="settings-reset" id="settingsReset">Сбросить настройки</button>
+        </div>
+      </div>
+
+      <div class="confirm-overlay hidden" id="confirmOverlay">
+        <div class="confirm-modal">
+          <div class="confirm-content">
+            <p id="confirmText">Удалить чат?</p>
+          </div>
+          <div class="confirm-actions">
+            <button class="confirm-cancel" id="confirmCancel">Отмена</button>
+            <button class="confirm-delete" id="confirmDelete">Удалить</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="auth-modal-overlay" id="authOverlay">
+        <div class="auth-modal">
+          <div class="auth-header">
+            <div class="auth-logo">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+              <span>wunderDocs</span>
+            </div>
+            <p class="auth-subtitle">Войдите, чтобы продолжить</p>
+          </div>
+          <div class="auth-tabs">
+            <button class="auth-tab active" data-tab="login">Вход</button>
+            <button class="auth-tab" data-tab="register">Регистрация</button>
+          </div>
+          <form class="auth-form" id="authForm">
+            <div class="auth-field">
+              <input type="text" id="authUsername" placeholder="Имя пользователя" autocomplete="username" required />
+            </div>
+            <div class="auth-field">
+              <input type="password" id="authPassword" placeholder="Пароль" autocomplete="current-password" required />
+            </div>
+            <div class="auth-error" id="authError"></div>
+            <button type="submit" class="auth-submit" id="authSubmit">Войти</button>
+          </form>
+          <div class="auth-user-info" id="authUserInfo" style="display:none">
+            <p>Вы вошли как <strong id="authUsernameDisplay"></strong></p>
+            <button class="auth-logout-btn" id="authLogoutBtn">Выйти</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="preview-overlay hidden" id="previewOverlay">
+        <div class="preview-modal">
+          <div class="preview-header">
+            <div class="preview-title" id="previewTitle">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+              <span id="previewFilename"></span>
+            </div>
+            <button class="preview-close" id="previewClose" aria-label="Закрыть">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
+          </div>
+          <div class="preview-meta" id="previewMeta"></div>
+          <div class="preview-body" id="previewBody"></div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>

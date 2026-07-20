@@ -1,0 +1,14 @@
+{
+  "toose": {
+    "password": "0ffe1abd1a08215353c233d6e009613e95eec4253832a761af28ff37ac5a150c",
+    "token": "bc168db0d426ae9f16f4ae32a8f6104d72856be079359ff2ba800cbc746c9254"
+  },
+  "toos": {
+    "password": "5994471abb01112afcc18159f6cc74b4f511b99806da59b3caf5a9c173cacfc5",
+    "token": "7a1782d7cc71083ecc26974e3cbcf8d3ebd80cc0f518daae51ea3fe790d77908"
+  },
+  "admin": {
+    "password": "5994471abb01112afcc18159f6cc74b4f511b99806da59b3caf5a9c173cacfc5",
+    "token": "41da004d22b5b617b6ba6c5b4b2a3aee3bb143251f635d5087bc0d6484879d35"
+  }
+}
